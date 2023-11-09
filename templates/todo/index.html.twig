@@ -1,0 +1,23 @@
+{% extends "template.html.twig" %}
+
+{% block WebsiteTitle %}
+    Todo
+{% endblock %}
+
+{% block PageTitle %}
+    <h1> <strong>Liste des todos</strong></h1>
+{% endblock %}
+
+{% block TitleNav %}
+    Liste des todos
+{% endblock %} 
+
+{% block Body %}
+<ul class="list-group">
+    {% for keys, value in app.session.get('todos') %}
+        <li class="list-group-item" aria-current="true">
+            {{keys}} : {{value}}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

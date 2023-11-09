@@ -1,0 +1,28 @@
+{% extends "template.html.twig" %}
+
+{% block WebsiteTitle %}
+    Clic'Répare - Statistiques
+{% endblock %}
+
+{% block TitleNav %}
+    Statistiques
+{% endblock %}
+
+{% block PageTitle %}
+    Statistiques
+{% endblock %}
+
+{% block Body %}
+    <table class="table">
+        {% for note in notes %}
+            <tr>
+                <td>{{note}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+<div class="alert alert-info" style="flex-direction: column; align-content: space-between;">
+    <p>Nombre de notes : {{ notes | length }} </p>
+    <p>Note minimale : {{ min(notes)}} </p>
+    <p>Note maximale : {{ max(notes) }} </p>
+</div>
+{% endblock %}

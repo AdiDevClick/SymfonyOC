@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/main.css') }}">
+
+    <title>
+    {% block title %}
+        ClicRépare
+    {% endblock %}    
+    </title>
+</head>
+<body>
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+header
+<hr /> 
+{% block body %} 
+    Mon super site en Symfony !
+{% endblock %}  
+<hr />
+footer 
+</body>
+</html>

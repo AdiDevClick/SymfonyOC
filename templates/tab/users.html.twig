@@ -1,0 +1,42 @@
+{% extends "template.html.twig" %}
+
+{% block WebsiteTitle %}
+    Clic'Répare - Utilisateurs
+{% endblock %}
+
+{% block TitleNav %}
+    Mes utilisateurs
+{% endblock %}
+
+{% block PageTitle %}
+    Mes utilisateurs
+{% endblock %}
+
+{% block Body %}
+{% include "fragments/date-jour.html.twig" %}
+    <div class="alert alert-warning">
+        <a href="{{ path('app_tab', { nb:7 }) }}"> Stats Table </a>
+    </div>
+    <table class="table">
+        <colgroup>
+            <col span="3" style="background-color:aquamarine">
+            <col span="2" style="background-color:red">
+            <col span="1" style="background-color:aqua">
+        </colgroup>
+        <tr class="table-secondary" >            
+            <th style="width: 400px;" colspan="1">Firstname</td>
+            <th style="width: 400px;" colspan="2">Name</td>
+            <th style="width: 100px;" colspan="3">Age</td>
+        </tr>
+        {% for user in users %}
+        <tr class="table-{% if loop.index is odd %}danger{% else %}warning{% endif %}">
+            <td colspan="1">{{user.firstname}}</td>
+            <td colspan="2">{{user.name}}</td>
+            <td colspan="3">{{user.age}}</td>
+            <td>
+                {{ render(controller('App\\Controller\\FirstController::sayHello', { nom: user.name, firstname: user.firstname })) }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
