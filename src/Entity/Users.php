@@ -2,13 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
+use App\Traits\TimeStampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+
 class Users
 {
+    use TimeStampTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -23,8 +29,21 @@ class Users
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $age = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $job = null;
+    #[ORM\OneToOne(inversedBy: 'users', cascade: ['persist', 'remove'])]
+    private ?Profile $profil = null;
+
+    #[ORM\ManyToMany(targetEntity: Hobby::class)]
+    private Collection $hobbies;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Job $job = null;
+
+
+
+    public function __construct()
+    {
+        $this->hobbies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -67,12 +86,48 @@ class Users
         return $this;
     }
 
-    public function getJob(): ?string
+    public function getProfil(): ?Profile
+    {
+        return $this->profil;
+    }
+
+    public function setProfil(?Profile $profil): static
+    {
+        $this->profil = $profil;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hobby>
+     */
+    public function getHobbies(): Collection
+    {
+        return $this->hobbies;
+    }
+
+    public function addHobby(Hobby $hobby): static
+    {
+        if (!$this->hobbies->contains($hobby)) {
+            $this->hobbies->add($hobby);
+        }
+
+        return $this;
+    }
+
+    public function removeHobby(Hobby $hobby): static
+    {
+        $this->hobbies->removeElement($hobby);
+
+        return $this;
+    }
+
+    public function getJob(): ?Job
     {
         return $this->job;
     }
 
-    public function setJob(?string $job): static
+    public function setJob(?Job $job): static
     {
         $this->job = $job;
 

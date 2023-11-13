@@ -377,27 +377,42 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">
                         {% block PageTitle %}
                             Ma première page
                         {% endblock %}                    
                     </h1>
-
+                    
+                    <div class="alert">
+                        {% for message in app.session.flashBag.get('error') %}
+                            <div class="alert alert-danger" role="alert">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                        {% for message in app.session.flashBag.get('success') %}
+                            <div class="alert alert-success" role="alert">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                        {% for message in app.session.flashBag.get('info') %}
+                            <div class="alert alert-info" role="alert">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    <!-- /.container-fluid -->
+                    </div>
                     <div class="card mb-4">
                         <div class="card-body">
                             {% block Body %}
                                 Template body
                             {% endblock %}
                         </div>
-                    </div>
-
-                    
-                        
-                    
+                    </div> 
+                <!-- /.container-fluid -->                    
                 </div>
-                <div class="alert">
+
+                {# <div class="alert">
                     {% for message in app.session.flashBag.get('error') %}
                         <div class="alert alert-danger" role="alert">
                             {{message}}
@@ -414,7 +429,7 @@
                         </div>
                     {% endfor %}
                 <!-- /.container-fluid -->
-                </div>
+                </div> #}
             </div>
             <!-- End of Main Content -->
 

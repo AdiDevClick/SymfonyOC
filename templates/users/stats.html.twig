@@ -1,0 +1,28 @@
+{% extends "template.html.twig" %}
+
+{% block TitleNav %}
+    Profil
+{% endblock %}
+
+{% block Body %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Moyenne d'âge des personnes entre {{ ageMin }} ans et {{ ageMax }} ans</h6>
+        </div>
+        <div class="card-body">
+            <a class="page-link"
+                >{{ stats['ageAvg'] }}                            
+            </a> 
+        </div>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Nombre de personnes entre {{ ageMin }} ans et {{ ageMax }} ans</h6>
+        </div>
+        <div class="card-body">
+            <a class="page-link"
+                >{{ stats['nbUsers'] }}                            
+            </a> 
+        </div>
+    </div>
+{% endblock %}

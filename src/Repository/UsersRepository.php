@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,20 +22,36 @@ class UsersRepository extends ServiceEntityRepository
         parent::__construct($registry, Users::class);
     }
 
-//    /**
-//     * @return Users[] Returns an array of Users objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Users[] Returns an array of Users objects
+     */
+    public function findUsersByAgeInterval(): array
+    {
+        $qb = $this->createQueryBuilder('u');
+        return $qb->getQuery()
+            ->getResult();
+    }
+
+    public function statsUsersByAgeInterval(int $ageMin, int $ageMax): array
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->select('avg(u.age) as ageAvg, count(u.id) as nbUsers');
+        $this->addAgeInterval($qb, $ageMin, $ageMax);
+        return $qb->getQuery()
+            ->getScalarResult();
+    }
+    public function addAgeInterval(QueryBuilder $qb, int $ageMin, int $ageMax)
+    {
+            $qb->andWhere('u.age >= :ageMin AND u.age <= :ageMax')
+            // ->setParameter('ageMin', $ageMin)
+            // ->setParameter('ageMax', $ageMax)
+                ->setParameters([
+                    'ageMax' => $ageMax,
+                    'ageMin' => $ageMin,
+                ])
+                ->orderBy('u.name', 'ASC')
+                ->setMaxResults(50);
+    }
 
 //    public function findOneBySomeField($value): ?Users
 //    {
@@ -45,4 +62,21 @@ class UsersRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+// public function findUsersByAgeInterval(int $ageMin, int $ageMax): array
+// {
+//     return $this->createQueryBuilder('u')
+//         ->andWhere('u.age >= :ageMin AND u.age <= :ageMax')
+//         // ->setParameter('ageMin', $ageMin)
+//         // ->setParameter('ageMax', $ageMax)
+//         ->setParameters([
+//             'ageMax' => $ageMax,
+//             'ageMin' => $ageMin,
+//             ])
+//         ->orderBy('u.name', 'ASC')
+//         ->setMaxResults(50)
+//         ->getQuery()
+//         ->getResult()
+//     ;
+// }
 }
